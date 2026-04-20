@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>تسجيل حساب</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body class="auth-page">
+
+  <header class="header">
+    <div class="header-inner">
+      <a href="cameras.html" class="logo">
+        <div class="logo-icon">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9.5L12 3l9 6.5V20a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V9.5z"/><path d="M9 21V12h6v9"/></svg>
+        </div>
+        <span data-i18n="appName">نظام مراقبة السلامة</span>
+      </a>
+      <div class="header-actions">
+        <button class="btn-lang" onclick="toggleLang()">
+          <span data-i18n="langSwitch">English</span>
+        </button>
+        <button class="btn-contact" onclick="openModal()">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 13a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.6 2.18h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L7.91 9.91a16 16 0 0 0 6.06 6.06l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+          <span data-i18n="contact">تواصل معنا</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main class="auth-main">
+    <div class="auth-card">
+      <div class="auth-logo">
+        <div class="auth-logo-icon">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
+        </div>
+        <h1 data-i18n="registerTitle">إنشاء حساب جديد</h1>
+        <p data-i18n="registerSubtitle">أدخل بياناتك للتسجيل في النظام</p>
+      </div>
+
+      <a href="cameras.html" class="btn-back">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+        <span data-i18n="backToCameras">العودة للكاميرات</span>
+      </a>
+
+      <div class="alert" id="alertBox"></div>
+
+      <form onsubmit="handleRegister(event)">
+        <div class="form-group">
+          <label class="form-label" data-i18n="empIdLabel">رقم الموظف</label>
+          <input type="text" id="empId" class="form-input" data-i18n="empIdPlaceholder" />
+          <div class="form-error" id="idErr"></div>
+        </div>
+        <div class="form-group">
+          <label class="form-label" data-i18n="nameLabel">الاسم الكامل</label>
+          <input type="text" id="name" class="form-input" data-i18n="namePlaceholder" />
+          <div class="form-error" id="nameErr"></div>
+        </div>
+        <div class="form-group">
+          <label class="form-label" data-i18n="deptLabel">القسم</label>
+          <input type="text" id="dept" class="form-input" data-i18n="deptPlaceholder" />
+          <div class="form-error" id="deptErr"></div>
+        </div>
+        <div class="form-group">
+          <label class="form-label" data-i18n="passwordLabel">كلمة المرور</label>
+          <input type="password" id="pass" class="form-input" placeholder="••••••••" />
+          <div class="form-error" id="passErr"></div>
+        </div>
+        <div class="form-group">
+          <label class="form-label" data-i18n="confirmPassLabel">تأكيد كلمة المرور</label>
+          <input type="password" id="confirmPass" class="form-input" placeholder="••••••••" />
+          <div class="form-error" id="confirmErr"></div>
+        </div>
+        <button type="submit" class="btn-submit" id="submitBtn">
+          <span data-i18n="registerBtn">إنشاء الحساب</span>
+        </button>
+      </form>
+
+      <div class="auth-switch">
+        <span data-i18n="hasAccount">لديك حساب بالفعل؟</span>
+        <a href="login.html" data-i18n="loginLink">سجّل الدخول</a>
+      </div>
+    </div>
+  </main>
+
+  <!-- Contact Modal -->
+  <div class="modal-overlay" id="modal">
+    <div class="modal-box">
+      <button class="modal-close" onclick="closeModal()">✕</button>
+      <div style="display:flex;justify-content:center;margin-bottom:10px;color:var(--primary)"><svg width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 13a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.6 2.18h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L7.91 9.91a16 16 0 0 0 6.06 6.06l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg></div>
+      <h3 style="font-size:1.2rem;font-weight:700;margin-bottom:6px" data-i18n="contact">تواصل معنا</h3>
+      <p style="color:var(--text-muted);font-size:.875rem;margin-bottom:14px" data-i18n="contactSub">للدعم الفني تواصل معنا</p>
+      <div class="modal-phone"><a href="tel:123456789">123456789</a></div>
+    </div>
+  </div>
+
+  <script src="js/i18n.js"></script>
+  <script src="js/auth.js"></script>
+  <script>
+    if (isLoggedIn()) location.href = 'dashboard.html';
+
+    function handleRegister(e) {
+      e.preventDefault();
+      const id      = document.getElementById('empId').value.trim();
+      const name    = document.getElementById('name').value.trim();
+      const dept    = document.getElementById('dept').value.trim();
+      const pass    = document.getElementById('pass').value;
+      const confirm = document.getElementById('confirmPass').value;
+      const btn     = document.getElementById('submitBtn');
+      const box     = document.getElementById('alertBox');
+
+      // reset
+      ['idErr','nameErr','deptErr','passErr','confirmErr'].forEach(x => document.getElementById(x).className = 'form-error');
+      ['empId','name','dept','pass','confirmPass'].forEach(x => document.getElementById(x).className = 'form-input');
+      box.className = 'alert';
+
+      let ok = true;
+      if (!id)      { setErr('idErr',      'empId',      t('errIdRequired'));       ok = false; }
+      if (!name)    { setErr('nameErr',    'name',        t('errNameRequired'));     ok = false; }
+      if (!dept)    { setErr('deptErr',    'dept',        t('errDeptRequired'));     ok = false; }
+      if (!pass)    { setErr('passErr',    'pass',        t('errPasswordRequired')); ok = false; }
+      if (pass && pass !== confirm) { setErr('confirmErr', 'confirmPass', t('errPasswordMismatch')); ok = false; }
+      if (!ok) return;
+
+      btn.disabled = true;
+      btn.innerHTML = '...';
+
+      registerUser(id, name, dept, pass)
+        .then(() => {
+          box.textContent = t('successRegistered');
+          box.className   = 'alert alert-success show';
+          setTimeout(() => location.href = 'login.html', 1800);
+        })
+        .catch(err => {
+          btn.disabled = false;
+          btn.innerHTML = `<span data-i18n="registerBtn">${t('registerBtn')}</span>`;
+          box.textContent = err.message === 'id_exists' ? t('errIdExists') : t('errNetwork');
+          box.className   = 'alert alert-error show';
+        });
+    }
+
+    function setErr(errId, inputId, msg) {
+      document.getElementById(errId).textContent = msg;
+      document.getElementById(errId).className   = 'form-error show';
+      document.getElementById(inputId).className = 'form-input error';
+    }
+
+    function openModal()  { document.getElementById('modal').classList.add('open'); }
+    function closeModal() { document.getElementById('modal').classList.remove('open'); }
+    document.getElementById('modal').addEventListener('click', e => { if (e.target === e.currentTarget) closeModal(); });
+  </script>
+</body>
+</html>

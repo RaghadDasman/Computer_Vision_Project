@@ -1,0 +1,26 @@
+ID Dataset Report
+
+Final Class:
+0 worker_id_tag
+
+Sources Used:
+- id_bzx4h
+- id_rdler
+
+Processing Done:
+- Unified class name to worker_id_tag
+- Removed unrelated classes
+- Merged datasets
+- Removed empty label files and matching images
+- Performed dataset sanity check
+
+Final Dataset Path:
+merged_id_dataset
+
+Final Split Counts:
+Train: 320
+Val: 63
+Test: 41
+
+Notes:
+This dataset is for ID tag detection only, not OCR or number reading.

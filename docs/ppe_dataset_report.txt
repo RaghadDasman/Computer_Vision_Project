@@ -1,0 +1,46 @@
+PPE Dataset Report
+
+Final Classes:
+0 person
+1 helmet
+2 no_helmet
+3 vest
+4 no_vest
+5 goggles
+6 no_goggles
+7 gloves
+8 no_gloves
+
+Sources Used:
+- Main PPE dataset
+- Extra goggles/gloves dataset
+
+Processing Done:
+- Unified class names
+- Removed unused classes
+- Remapped class IDs
+- Merged datasets
+- Removed empty label files and matching images
+- Performed dataset sanity check
+
+Final Dataset Path:
+merged_dataset
+
+Final Split Counts:
+Train: 8393
+Val: 950
+Test: 494
+
+Train Object Counts:
+person: 5078
+helmet: 7166
+no_helmet: 846
+vest: 8987
+no_vest: 1135
+goggles: 1009
+no_goggles: 337
+gloves: 5636
+no_gloves: 443
+
+Notes:
+Violation classes are fewer than compliant classes, especially no_goggles and no_gloves.

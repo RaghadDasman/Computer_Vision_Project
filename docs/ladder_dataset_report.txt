@@ -1,0 +1,24 @@
+Ladder Dataset Report
+
+Final Class:
+0 ladder
+
+Source Used:
+- ladder_main
+
+Processing Done:
+- Prepared single-class ladder detection dataset
+- Copied data into final merged structure
+- Performed dataset sanity check
+
+Final Dataset Path:
+merged_ladder_dataset
+
+Final Split Counts:
+Train: 1848
+Val: 127
+Test: 66
+
+Notes:
+This dataset is only for ladder detection.
+Worker pose analysis and safety logic will be handled later outside the dataset.

@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>الكاميرات</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+  <style>
+    .source-bar {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 20px;
+      background: #0f172a;
+      border-bottom: 1px solid #1e293b;
+      flex-wrap: wrap;
+    }
+    .source-bar span { color: #94a3b8; font-size: .82rem; }
+    .source-btn {
+      padding: 5px 14px;
+      border-radius: 6px;
+      border: 1px solid #334155;
+      background: #1e293b;
+      color: #e2e8f0;
+      font-family: Cairo, sans-serif;
+      font-size: .8rem;
+      cursor: pointer;
+      transition: background .2s;
+    }
+    .source-btn:hover { background: #2563eb; border-color: #2563eb; }
+    .source-btn.active { background: #2563eb; border-color: #2563eb; }
+    .source-label {
+      margin-right: auto;
+      color: #64748b;
+      font-size: .78rem;
+    }
+    #videoList { display: flex; gap: 8px; flex-wrap: wrap; }
+    .video-chip {
+      padding: 4px 12px;
+      border-radius: 20px;
+      background: #1e293b;
+      border: 1px solid #334155;
+      color: #94a3b8;
+      font-size: .75rem;
+      cursor: pointer;
+      font-family: Cairo, sans-serif;
+    }
+    .video-chip:hover { background: #0ea5e9; color: #fff; border-color: #0ea5e9; }
+  </style>
+</head>
+<body class="cameras-page">
+
+  <header class="header">
+    <div class="header-inner">
+      <a href="cameras.html" class="logo">
+        <div class="logo-icon">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9.5L12 3l9 6.5V20a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V9.5z"/><path d="M9 21V12h6v9"/></svg>
+        </div>
+        <span data-i18n="appName">نظام مراقبة السلامة</span>
+      </a>
+      <nav class="header-nav">
+        <a href="cameras.html"   class="nav-link active" data-i18n="navCameras">الكاميرات</a>
+        <a href="dashboard.html" class="nav-link"        data-i18n="navDashboard">لوحة التحكم</a>
+      </nav>
+      <div class="header-actions">
+        <button class="btn-lang" onclick="toggleLang()">
+          <span data-i18n="langSwitch">English</span>
+        </button>
+        <button class="btn-contact" onclick="openModal()">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 13a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.6 2.18h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L7.91 9.91a16 16 0 0 0 6.06 6.06l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+          <span data-i18n="contact">تواصل معنا</span>
+        </button>
+        <div id="authArea"></div>
+      </div>
+    </div>
+  </header>
+
+
+  <main class="cameras-main">
+    <div class="page-title">
+      <h2 data-i18n="cameraTitle">المراقبة المباشرة</h2>
+      <p data-i18n="cameraSubtitle">بث مباشر من كاميرات المصنع</p>
+    </div>
+
+    <!-- Stats Bar -->
+    <div class="cameras-stats-bar">
+      <div class="stat-card">
+        <div class="stat-icon blue">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
+        </div>
+        <div>
+          <div class="stat-value" id="workerCount">—</div>
+          <div class="stat-label" data-i18n="detectedWorkers">عمال مكتشفون</div>
+        </div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-icon red">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 9v4"/><path d="M12 17h.01"/><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/></svg>
+        </div>
+        <div>
+          <div class="stat-value" id="violationCount">—</div>
+          <div class="stat-label" data-i18n="detectedViolations">مخالفات</div>
+        </div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-icon" style="background:#166534">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
+        </div>
+        <div>
+          <div class="stat-value" id="safeCount">—</div>
+          <div class="stat-label" data-i18n="detectedCompliant">ملتزمون</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Image Analysis Result (يظهر بعد تحليل صورة) -->
+    <div id="imgResult" style="display:none; margin:0 0 16px; border-radius:12px; overflow:hidden; border:1px solid #1e293b">
+      <div style="background:#1e293b;padding:8px 14px;font-size:.82rem;color:#94a3b8;display:flex;justify-content:space-between;align-items:center">
+        <span>نتيجة تحليل الصورة</span>
+        <button onclick="document.getElementById('imgResult').style.display='none'" style="background:none;border:none;color:#64748b;cursor:pointer;font-size:1.1rem">✕</button>
+      </div>
+      <div style="display:flex;gap:0">
+        <img id="imgResultImg" style="width:60%;object-fit:contain;background:#000" />
+        <div id="imgResultData" style="width:40%;padding:14px;background:#0f172a;color:#e2e8f0;font-size:.82rem;overflow-y:auto;max-height:340px"></div>
+      </div>
+    </div>
+
+    <!-- Cameras Grid (2x2) -->
+    <div class="cameras-grid">
+
+      <div class="camera-feed-card">
+        <div class="camera-header">
+          <span class="camera-title">Camera 01 — Main Floor</span>
+          <div class="live-badge" id="badge1"><div class="live-dot"></div><span data-i18n="liveLabel">مباشر</span></div>
+        </div>
+        <div class="camera-feed">
+          <img id="cam1" alt="Camera 01" onerror="showOffline(this)" />
+          <div class="camera-placeholder" style="display:none">
+            <div class="camera-placeholder-icon"><svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg></div>
+            <p data-i18n="noSignal">لا توجد إشارة</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="camera-feed-card">
+        <div class="camera-header">
+          <span class="camera-title">Camera 02 — Entry Gate</span>
+          <div class="live-badge" id="badge2"><div class="live-dot"></div><span data-i18n="liveLabel">مباشر</span></div>
+        </div>
+        <div class="camera-feed">
+          <img id="cam2" alt="Camera 02" onerror="showOffline(this)" />
+          <div class="camera-placeholder" style="display:none">
+            <div class="camera-placeholder-icon"><svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg></div>
+            <p data-i18n="noSignal">لا توجد إشارة</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="camera-feed-card">
+        <div class="camera-header">
+          <span class="camera-title">Camera 03 — Warehouse</span>
+          <div class="live-badge" id="badge3"><div class="live-dot"></div><span data-i18n="liveLabel">مباشر</span></div>
+        </div>
+        <div class="camera-feed">
+          <img id="cam3" alt="Camera 03" onerror="showOffline(this)" />
+          <div class="camera-placeholder" style="display:none">
+            <div class="camera-placeholder-icon"><svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg></div>
+            <p data-i18n="noSignal">لا توجد إشارة</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="camera-feed-card">
+        <div class="camera-header">
+          <span class="camera-title">Camera 04 — Exit</span>
+          <div class="live-badge" id="badge4"><div class="live-dot"></div><span data-i18n="liveLabel">مباشر</span></div>
+        </div>
+        <div class="camera-feed">
+          <img id="cam4" alt="Camera 04" onerror="showOffline(this)" />
+          <div class="camera-placeholder" style="display:none">
+            <div class="camera-placeholder-icon"><svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg></div>
+            <p data-i18n="noSignal">لا توجد إشارة</p>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </main>
+
+  <!-- Contact Modal -->
+  <div class="modal-overlay" id="modal">
+    <div class="modal-box">
+      <button class="modal-close" onclick="closeModal()">✕</button>
+      <div style="display:flex;justify-content:center;margin-bottom:10px;color:var(--primary)">
+        <svg width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 13a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.6 2.18h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L7.91 9.91a16 16 0 0 0 6.06 6.06l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+      </div>
+      <h3 style="font-size:1.2rem;font-weight:700;margin-bottom:6px" data-i18n="contact">تواصل معنا</h3>
+      <p style="color:var(--text-muted);font-size:.875rem;margin-bottom:14px" data-i18n="contactSub">للدعم الفني تواصل معنا</p>
+      <div class="modal-phone"><a href="tel:123456789">123456789</a></div>
+    </div>
+  </div>
+
+  <script src="js/i18n.js"></script>
+  <script src="js/auth.js"></script>
+  <script>
+    const BASE = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
+      ? 'http://localhost:8000'
+      : window.location.origin;
+    const WS_BASE = BASE.replace('https://', 'wss://').replace('http://', 'ws://');
+
+    // ── Auth ──
+    const user     = getCurrentUser();
+    const authArea = document.getElementById('authArea');
+    if (user) {
+      authArea.innerHTML = `
+        <div class="user-info">
+          <div class="user-avatar-sm"><svg width="14" height="14" viewBox="0 0 24 24" fill="white" stroke="none"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg></div>
+          <span>${user.name}</span>
+        </div>
+        <button class="btn-outline" onclick="logout()">${t('navLogout')}</button>`;
+    } else {
+      authArea.innerHTML = `
+        <a href="login.html"    class="btn-outline">${t('navLogin')}</a>
+        <a href="register.html" class="btn-primary">${t('navRegister')}</a>`;
+    }
+
+    function showOffline(img) {
+      img.style.display = 'none';
+      img.nextElementSibling.style.display = 'flex';
+    }
+
+    // ── تحديث الكاميرات بعد تغيير المصدر ──
+    function refreshFeed() {
+      const ts = Date.now();
+      ['cam1','cam2','cam3','cam4'].forEach(id => {
+        const img = document.getElementById(id);
+        img.style.display = 'block';
+        img.nextElementSibling.style.display = 'none';
+        img.src = `${BASE}/video_feed?t=${ts}`;
+      });
+    }
+
+    function setLiveBadge(text, color) {
+      ['badge1','badge2','badge3','badge4'].forEach(id => {
+        document.getElementById(id).innerHTML =
+          `<div class="live-dot" style="background:${color}"></div><span>${text}</span>`;
+      });
+    }
+
+    // ── تبديل للكاميرا ──
+    async function switchToCamera() {
+      await fetch(`${BASE}/source/camera`, { method: 'POST' });
+      document.getElementById('sourceLabel').textContent = '📷 كاميرا مباشرة';
+      document.getElementById('btnCamera').classList.add('active');
+      setLiveBadge('مباشر', '#22c55e');
+      refreshFeed();
+    }
+
+    // ── رفع فيديو وتشغيله ──
+    async function uploadAndPlay(input) {
+      const file = input.files[0];
+      if (!file) return;
+      input.value = '';
+
+      document.getElementById('sourceLabel').textContent = '⏳ جاري الرفع...';
+      const form = new FormData();
+      form.append('file', file);
+
+      try {
+        const res  = await fetch(`${BASE}/source/upload_video`, { method: 'POST', body: form });
+        const data = await res.json();
+        document.getElementById('sourceLabel').textContent = `🎬 ${data.filename}`;
+        document.getElementById('btnCamera').classList.remove('active');
+        setLiveBadge('فيديو', '#f59e0b');
+        refreshFeed();
+        loadVideoList();
+      } catch {
+        document.getElementById('sourceLabel').textContent = '❌ فشل الرفع';
+      }
+    }
+
+    // ── تحميل قائمة الفيديوهات ──
+    async function loadVideoList() {
+      try {
+        const res    = await fetch(`${BASE}/source/videos`);
+        const data   = await res.json();
+        const list   = document.getElementById('videoList');
+        list.innerHTML = data.videos.map(v =>
+          `<span class="video-chip" onclick="switchToVideo('${v}')">${v}</span>`
+        ).join('');
+        if (data.current && data.current !== '0') {
+          document.getElementById('sourceLabel').textContent = `🎬 ${data.current.split('/').pop()}`;
+        }
+      } catch {}
+    }
+
+    async function switchToVideo(filename) {
+      await fetch(`${BASE}/source/video/${encodeURIComponent(filename)}`, { method: 'POST' });
+      document.getElementById('sourceLabel').textContent = `🎬 ${filename}`;
+      document.getElementById('btnCamera').classList.remove('active');
+      setLiveBadge('فيديو', '#f59e0b');
+      refreshFeed();
+    }
+
+    // ── تحليل صورة ──
+    async function analyzeImage(input) {
+      const file = input.files[0];
+      if (!file) return;
+      input.value = '';
+
+      const result  = document.getElementById('imgResult');
+      const imgEl   = document.getElementById('imgResultImg');
+      const dataEl  = document.getElementById('imgResultData');
+
+      result.style.display = 'block';
+      dataEl.innerHTML = '⏳ جاري التحليل...';
+      imgEl.src = '';
+
+      try {
+        const form = new FormData();
+        form.append('file', file);
+        const res  = await fetch(`${BASE}/analyze/image`, { method: 'POST', body: form });
+        const data = await res.json();
+
+        imgEl.src = data.annotated_image;
+
+        const workers   = data.result.workers || [];
+        const safe      = data.safe_workers;
+        const unsafe    = data.unsafe_workers;
+        const hasLadder = data.has_ladder;
+
+        let html = `
+          <div style="margin-bottom:10px">
+            👷 <b>${data.total_workers}</b> عامل &nbsp;|&nbsp;
+            ✅ <b style="color:#4ade80">${safe}</b> &nbsp;|&nbsp;
+            ⚠️ <b style="color:#f87171">${unsafe}</b> &nbsp;|&nbsp;
+            🪜 ${hasLadder ? '<b style="color:#fb923c">نعم</b>' : 'لا'}
+          </div>`;
+
+        workers.forEach(w => {
+          const status = w.is_safe
+            ? '<span style="color:#4ade80">✅ ملتزم</span>'
+            : '<span style="color:#f87171">⚠️ مخالفة</span>';
+          html += `<div style="margin-bottom:8px;padding:6px;background:#1e293b;border-radius:6px">
+            <b>${w.employee_id}</b> ${status}<br>`;
+          if (w.ppe.missing.length)
+            html += `<small style="color:#fbbf24">ناقص: ${w.ppe.missing.join(', ')}</small>`;
+          html += '</div>';
+        });
+
+        if (!workers.length)
+          html += '<p style="color:#64748b">لم يُكتشف أي عامل في الصورة</p>';
+
+        dataEl.innerHTML = html;
+
+        // تحديث الإحصائيات العليا
+        document.getElementById('workerCount').textContent    = data.total_workers;
+        document.getElementById('violationCount').textContent = unsafe;
+        document.getElementById('safeCount').textContent      = safe;
+
+      } catch {
+        dataEl.innerHTML = '❌ فشل الاتصال بالسيرفر';
+      }
+    }
+
+    // ── WebSocket للإحصائيات ──
+    let ws;
+    function connectWS() {
+      ws = new WebSocket(`${WS_BASE}/ws/stream`);
+      ws.onmessage = e => {
+        const d        = JSON.parse(e.data);
+        const workers  = d.workers ? d.workers.length : 0;
+        const unsafe   = d.workers ? d.workers.filter(w => !w.is_safe).length : 0;
+        const safe     = workers - unsafe;
+        document.getElementById('workerCount').textContent    = workers;
+        document.getElementById('violationCount').textContent = unsafe;
+        document.getElementById('safeCount').textContent      = safe;
+      };
+      ws.onclose = () => setTimeout(connectWS, 3000);
+      ws.onerror = () => ws.close();
+    }
+    // تعيين URLs الكاميرات بعد معرفة الـ BASE
+    document.getElementById('cam1').src = `${BASE}/video_feed/0`;
+    document.getElementById('cam2').src = `${BASE}/video_feed/1`;
+    document.getElementById('cam3').src = `${BASE}/video_feed/2`;
+    document.getElementById('cam4').src = `${BASE}/video_feed/3`;
+
+    connectWS();
+    loadVideoList();
+
+    function openModal()  { document.getElementById('modal').classList.add('open'); }
+    function closeModal() { document.getElementById('modal').classList.remove('open'); }
+    document.getElementById('modal').addEventListener('click', e => { if (e.target === e.currentTarget) closeModal(); });
+  </script>
+</body>
+</html>

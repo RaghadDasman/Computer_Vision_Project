@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>لوحة التحكم</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body class="dashboard-page">
+
+  <header class="header">
+    <div class="header-inner">
+      <a href="cameras.html" class="logo">
+        <div class="logo-icon">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9.5L12 3l9 6.5V20a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V9.5z"/><path d="M9 21V12h6v9"/></svg>
+        </div>
+        <span data-i18n="appName">نظام مراقبة السلامة</span>
+      </a>
+      <nav class="header-nav">
+        <a href="cameras.html"   class="nav-link"        data-i18n="navCameras">الكاميرات</a>
+        <a href="dashboard.html" class="nav-link active" data-i18n="navDashboard">لوحة التحكم</a>
+      </nav>
+      <div class="header-actions">
+        <button class="btn-lang" onclick="toggleLang()">
+          <span data-i18n="langSwitch">English</span>
+        </button>
+        <button class="btn-contact" onclick="openModal()">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 13a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.6 2.18h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L7.91 9.91a16 16 0 0 0 6.06 6.06l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+          <span data-i18n="contact">تواصل معنا</span>
+        </button>
+        <div class="user-info" id="userBadge"></div>
+        <button class="btn-outline" onclick="logout()" data-i18n="navLogout">خروج</button>
+      </div>
+    </div>
+  </header>
+
+  <main class="dashboard-main">
+
+    <!-- Welcome -->
+    <div style="margin-bottom:24px">
+      <h2 style="font-size:1.4rem;font-weight:700" id="welcomeText"></h2>
+      <p style="color:var(--text-muted);font-size:.875rem;margin-top:3px" id="dateText"></p>
+    </div>
+
+    <!-- Stats -->
+    <div class="stats-row">
+      <div class="stat-card-lg">
+        <div class="stat-icon-lg"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--primary)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg></div>
+        <div class="stat-number" id="statTotal">—</div>
+        <div class="stat-name" data-i18n="statTotal">إجمالي العمال</div>
+      </div>
+      <div class="stat-card-lg success">
+        <div class="stat-icon-lg"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--success)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M8 12l3 3 5-5"/></svg></div>
+        <div class="stat-number" id="statActive">—</div>
+        <div class="stat-name" data-i18n="statActive">نشط الآن</div>
+      </div>
+      <div class="stat-card-lg danger">
+        <div class="stat-icon-lg"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--danger)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 9v4"/><path d="M12 17h.01"/><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/></svg></div>
+        <div class="stat-number" id="statViolations">—</div>
+        <div class="stat-name" data-i18n="statViolations">مخالفات اليوم</div>
+      </div>
+      <div class="stat-card-lg warning">
+        <div class="stat-icon-lg"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--warning)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg></div>
+        <div class="stat-number" id="statCompliance">—</div>
+        <div class="stat-name" data-i18n="statCompliance">نسبة الالتزام</div>
+      </div>
+    </div>
+
+    <!-- Workers -->
+    <div class="section">
+      <div class="section-header">
+        <h3 class="section-title" data-i18n="workersTitle">سجل العمال</h3>
+        <div class="search-bar">
+          <span class="search-icon"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg></span>
+          <input
+            type="text"
+            data-i18n="searchPlaceholder"
+            oninput="filterWorkers(this.value)"
+          />
+        </div>
+      </div>
+      <div class="section-body">
+        <div id="workersGrid" class="workers-grid">
+          <div class="spinner"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Alerts -->
+    <div class="section">
+      <div class="section-header">
+        <h3 class="section-title" data-i18n="alertsTitle">آخر التنبيهات</h3>
+      </div>
+      <div class="section-body">
+        <div id="alertsList"><div class="spinner"></div></div>
+      </div>
+    </div>
+
+  </main>
+
+  <!-- Contact Modal -->
+  <div class="modal-overlay" id="modal">
+    <div class="modal-box">
+      <button class="modal-close" onclick="closeModal()">✕</button>
+      <div style="display:flex;justify-content:center;margin-bottom:10px;color:var(--primary)"><svg width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 13a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.6 2.18h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L7.91 9.91a16 16 0 0 0 6.06 6.06l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg></div>
+      <h3 style="font-size:1.2rem;font-weight:700;margin-bottom:6px" data-i18n="contact">تواصل معنا</h3>
+      <p style="color:var(--text-muted);font-size:.875rem;margin-bottom:14px" data-i18n="contactSub">للدعم الفني تواصل معنا</p>
+      <div class="modal-phone"><a href="tel:123456789">123456789</a></div>
+    </div>
+  </div>
+
+  <script src="js/i18n.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/dashboard.js"></script>
+  <script>
+    const user = requireAuth();
+    if (user) {
+      document.getElementById('userBadge').innerHTML =
+        `<div class="user-avatar-sm"><svg width="14" height="14" viewBox="0 0 24 24" fill="white" stroke="none"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg></div><span>${user.name}</span>`;
+      document.getElementById('welcomeText').textContent =
+        `${t('welcome')}، ${user.name}`;
+    }
+
+    function updateDate() {
+      document.getElementById('dateText').textContent = new Date().toLocaleDateString(
+        currentLang === 'ar' ? 'ar-SA' : 'en-US',
+        { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' }
+      );
+    }
+    updateDate();
+
+    function openModal()  { document.getElementById('modal').classList.add('open'); }
+    function closeModal() { document.getElementById('modal').classList.remove('open'); }
+    document.getElementById('modal').addEventListener('click', e => { if (e.target === e.currentTarget) closeModal(); });
+  </script>
+</body>
+</html>
