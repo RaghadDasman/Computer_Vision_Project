@@ -1,9 +1,12 @@
+---
 title: Worker Safety Monitoring System
-emoji: "🚀"
+emoji: 🚀
 colorFrom: blue
 colorTo: indigo
 sdk: docker
+app_file: app.py
 pinned: false
+---
 
 # AI-Based Industrial Safety Monitoring System Using Computer Vision
 
