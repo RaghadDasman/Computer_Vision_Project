@@ -1,3 +1,7 @@
+# AI-Powered Worker Safety Monitoring System
+
+A computer vision project for monitoring worker safety using YOLO-based detection models.
+
 ---
 title: project-Cv
 emoji: "🚀"
@@ -33,6 +37,15 @@ An intelligent real-time worker safety monitoring system for industrial environm
 | YOLOv8 (ladder_best.pt) | Ladder detection |
 | YOLOv8s-pose | Body pose estimation |
 | YOLOv8s | General person detection |
+
+## Team Members
+
+| # | Name |
+|---|---|
+| 1 | Yasir Aladwani |
+| 2 | Raghad Dasman |
+| 3 | Mansour Alhenaki |
+| 4 | Leen Almufleh|
 
 ##  Tech Stack
 
