@@ -1,12 +1,3 @@
----
-title: project-Cv
-emoji: "🚀"
-colorFrom: blue
-colorTo: indigo
-sdk: docker
-pinned: false
----
-
 # AI-Based Industrial Safety Monitoring System Using Computer Vision
 
 An intelligent real-time worker safety monitoring system for industrial environments, built on YOLOv8 and FastAPI.
@@ -15,6 +6,13 @@ An intelligent real-time worker safety monitoring system for industrial environm
 
 ---
 
+title: project-Cv
+emoji: "🚀"
+colorFrom: blue
+colorTo: indigo
+sdk: docker
+pinned: false
+---
 ##  Features
 
 - Personal Protective Equipment (PPE) detection — helmet, vest, goggles, gloves
