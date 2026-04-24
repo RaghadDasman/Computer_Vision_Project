@@ -4,14 +4,7 @@ An intelligent real-time worker safety monitoring system for industrial environm
 
 🔗 **[Live Demo](https://mansouralhenaki-project-cv.hf.space/app/login.html)**
 
----
 
-title: project-Cv
-emoji: "🚀"
-colorFrom: blue
-colorTo: indigo
-sdk: docker
-pinned: false
 ---
 ##  Features
 
