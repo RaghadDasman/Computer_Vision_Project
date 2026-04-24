@@ -1,3 +1,10 @@
+title: Worker Safety Monitoring System
+emoji: "🚀"
+colorFrom: blue
+colorTo: indigo
+sdk: docker
+pinned: false
+
 # AI-Based Industrial Safety Monitoring System Using Computer Vision
 
 An intelligent real-time worker safety monitoring system for industrial environments, built on YOLOv8 and FastAPI.
