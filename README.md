@@ -1,7 +1,3 @@
-# AI-Powered Worker Safety Monitoring System
-
-A computer vision project for monitoring worker safety using YOLO-based detection models.
-
 ---
 title: project-Cv
 emoji: "🚀"
